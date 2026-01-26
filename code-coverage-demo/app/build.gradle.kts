@@ -3,12 +3,23 @@
  */
 
 plugins {
-    id("buildlogic.java-application-conventions")
+    application
+    java
 }
 
 dependencies {
-    implementation("org.apache.commons:commons-text")
+    implementation("org.apache.commons:commons-text:1.13.0")
     implementation(project(":utilities"))
+
+    // Use JUnit Jupiter for testing.
+    testImplementation("org.junit.jupiter:junit-jupiter:5.12.1")
+
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+tasks.named<Test>("test") {
+    // Use JUnit Platform for unit tests.
+    useJUnitPlatform()
 }
 
 application {

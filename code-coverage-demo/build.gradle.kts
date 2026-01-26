@@ -1,4 +1,5 @@
 plugins {
+    java
     jacoco
 }
 
@@ -8,6 +9,11 @@ repositories {
 
 allprojects {
     apply(plugin = "jacoco")
+
+    repositories {
+        gradlePluginPortal()
+        mavenCentral()
+    }
 
     tasks.withType<Test>().configureEach {
         finalizedBy(tasks.named("jacocoTestReport"))
@@ -112,3 +118,9 @@ class JacocoRootReportConfigAction: Action<TaskExecutionGraph> {
 }
 
 gradle.taskGraph.whenReady(JacocoRootReportConfigAction())
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
