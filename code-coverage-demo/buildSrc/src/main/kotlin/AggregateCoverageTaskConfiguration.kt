@@ -1,6 +1,5 @@
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.register
-import java.io.File
 
 fun Project.configureAggregateCoverageTask() {
     tasks.register<AggregateCoverageTask>("aggregateCoverageCsv") {
@@ -8,6 +7,7 @@ fun Project.configureAggregateCoverageTask() {
             it.name to it.file("build/reports/jacoco/test/jacocoTestReport.csv")
         }
         csvData.set(subprojectCsvs)
+        csvFiles.from(subprojectCsvs.values)
         outputFile.set(rootProject.layout.projectDirectory.file("coverage/current.csv"))
     }
 }
