@@ -37,8 +37,10 @@ jobs:
     - name: Upload test.exec files
       uses: actions/upload-artifact@v4
       with:
-        name: test-exec-files-libraries
-        path: code-coverage-demo/**/build/jacoco/test.exec
+        name: test-data-ccd-libraries
+        path: |
+	  code-coverage-demo/**/build/jacoco/test.exec
+	  code-coverage-demo/**/build/reports/jacoco/test/jacocoTestReport.csv
         retention-days: 1
         if-no-files-found: ignore
 
@@ -65,8 +67,10 @@ jobs:
     - name: Upload test.exec files
       uses: actions/upload-artifact@v4
       with:
-        name: test-exec-files-app
-        path: code-coverage-demo/**/build/jacoco/test.exec
+        name: test-data-ccd-app
+        path: |
+	  code-coverage-demo/**/build/jacoco/test.exec
+	  code-coverage-demo/**/build/reports/jacoco/test/jacocoTestReport.csv
         retention-days: 1
         if-no-files-found: ignore
 
@@ -90,10 +94,10 @@ jobs:
         cd code-coverage-demo
         ./gradlew classes
 
-    - name: Download test.exec files
+    - name: Download test data files
       uses: actions/download-artifact@v4
       with:
-        pattern: test-exec-files-*
+        pattern: test-data-ccd-*
         merge-multiple: true
         path: code-coverage-demo
 
@@ -109,3 +113,9 @@ jobs:
         path: code-coverage-demo/build/reports/jacoco/jacocoRootReport
         retention-days: 1
         if-no-files-found: ignore
+
+    - name: Compare the code coverage csv data
+      run: |
+        cd code-coverage-demo
+	./gradlew compareCoverageCsv
+
