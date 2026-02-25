@@ -39,8 +39,8 @@ jobs:
       with:
         name: test-data-ccd-libraries
         path: |
-	  code-coverage-demo/**/build/jacoco/test.exec
-	  code-coverage-demo/**/build/reports/jacoco/test/jacocoTestReport.csv
+          code-coverage-demo/**/build/jacoco/test.exec
+          code-coverage-demo/**/build/reports/jacoco/test/jacocoTestReport.csv
         retention-days: 1
         if-no-files-found: ignore
 
@@ -69,8 +69,8 @@ jobs:
       with:
         name: test-data-ccd-app
         path: |
-	  code-coverage-demo/**/build/jacoco/test.exec
-	  code-coverage-demo/**/build/reports/jacoco/test/jacocoTestReport.csv
+          code-coverage-demo/**/build/jacoco/test.exec
+          code-coverage-demo/**/build/reports/jacoco/test/jacocoTestReport.csv
         retention-days: 1
         if-no-files-found: ignore
 
@@ -117,5 +117,5 @@ jobs:
     - name: Compare the code coverage csv data
       run: |
         cd code-coverage-demo
-	./gradlew compareCoverageCsv
+        ./gradlew compareCoverageCsv
 
