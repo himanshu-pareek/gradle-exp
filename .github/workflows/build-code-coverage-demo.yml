@@ -76,7 +76,7 @@ jobs:
 
   code-coverage-push:
     needs: [ test-app, test-libraries ]
-    if: ${{ github.event_name == "push" }}
+    if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -132,7 +132,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       content: read
-    if: ${{ github.event_name == "pull_request" && success() }}
+    if: ${{ github.event_name == 'pull_request' && success() }}
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
