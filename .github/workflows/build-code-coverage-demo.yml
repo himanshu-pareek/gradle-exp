@@ -80,12 +80,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-
     steps:
+    - id: app-token-gen
+      name: Generate App Token
+      uses: actions/create-github-app-token@v1
+      with:
+        app-id: ${{ secrets.DIRECT_PUSH_APP_ID }}
+        private-key: ${{ secrets.DIRECT_PUSH_APP_PRIVATE_KEY }}
     - uses: actions/checkout@v4
       with:
         fetch-depth: 2
-        token: ${{ secrets.ACTION_BOT_PAT }}
+        token: ${{ steps.app-token-gen.outputs.token }}
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
