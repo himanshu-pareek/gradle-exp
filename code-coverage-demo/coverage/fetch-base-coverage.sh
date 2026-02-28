@@ -2,10 +2,12 @@
 
 set -euo pipefail
 
-git fetch origin master --depth=1
+git fetch origin main --depth=1
 
-if git cat-file -e origin/master:code-coverage-demo/coverage/base.csv; then
-	git show origin/master:code-coverage-demo/coverage/base.csv > code-coverage-demo/coverage/base.csv
+BASE_FILE="code-coverage-demo/coverage/base.csv"
+
+if git cat-file -e origin/main:"${BASE_FILE}"; then
+	git show origin/main:"${BASE_FILE}" > "${BASE_FILE}"
 else
 	echo "Basefile does not exist"
 fi

@@ -18,8 +18,8 @@ if [ -f "$BASE_NEW" ]; then
 	}
 
 	git checkout -- . || true
-	git pull --rebase --autostash origin master
-	git push origin HEAD:refs/heads/master
+	git pull --rebase --autostash origin main
+	git push origin HEAD:refs/heads/main
 else
 	echo "No improved coverage baseline found. Nothing to update."
 fi
