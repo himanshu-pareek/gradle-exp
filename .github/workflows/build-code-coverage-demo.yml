@@ -79,7 +79,7 @@ jobs:
     if: ${{ github.event_name == 'push' }}
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
@@ -131,7 +131,7 @@ jobs:
     needs: [ test-app, test-libraries ]
     runs-on: ubuntu-latest
     permissions:
-      content: read
+      contents: read
     if: ${{ github.event_name == 'pull_request' && success() }}
     steps:
     - uses: actions/checkout@v4
