@@ -1,6 +1,8 @@
 package org.example.utilities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.example.list.LinkedList;
 import org.junit.jupiter.api.Test;
@@ -27,5 +29,14 @@ public class StringUtilsTest {
     list.add("Second element");
     String joinedString = StringUtils.join(list);
     assertEquals("First element Second element", joinedString);
+  }
+
+  @Test
+  public void test_IsBlank() {
+    assertTrue(StringUtils.isBlank(null));
+    assertTrue(StringUtils.isBlank(""));
+    assertTrue(StringUtils.isBlank("    "));
+    assertFalse(StringUtils.isBlank("    a  "));
+    assertTrue(StringUtils.isBlank("\t"));
   }
 }
