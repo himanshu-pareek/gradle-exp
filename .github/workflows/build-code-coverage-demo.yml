@@ -167,7 +167,7 @@ jobs:
     if: ${{ github.event_name == 'pull_request' && success() }}
     permissions:
       contents: read
-      pull_requests: write
+      pull-requests: write
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
