@@ -160,11 +160,14 @@ jobs:
         cd code-coverage-demo
         ./gradlew compareCoverageCsv
 
-  jacoco-report:
-    name: Generate Jacoco Reports for Code Coverage
+  jacoco-report-no-build:
+    name: Generate Jacoco Reports for Code Coverage without build
     needs: [ test-app, test-libraries ]
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'pull_request' && success() }}
+    permissions:
+      contents: read
+      pull_requests: write
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 21
@@ -172,7 +175,13 @@ jobs:
       with:
         java-version: 21
         distribution: 'temurin'
-    - name: Jacoco Report without build
+    - name: Download test data files
+      uses: actions/download-artifact@v4
+      with:
+        pattern: test-data-ccd-*
+        merge-multiple: true
+        path: code-coverage-demo
+    - name: Jacoco Report
       id: jacoc-report
       uses: madrapps/jacoco-report@v1.7.2
       with:
@@ -188,8 +197,7 @@ jobs:
         fail-emoji: ':red_circle:'
         continue-on-error: true
         debug-mode: true
-
     - name: Get the coverage info
       run: |
-        echo "Total coverage ${{ steps.jacoc-report.outputs.coverage-overall }}"
-        echo "Chagned fiels coverage ${{ steps.jacoc-report.outputs.coverage-changed-files }}"
+        echo "Total coverage - ${{ steps.jacoc-report.outputs.coverage-overall }}"
+        echo "Chagned files coverage - ${{ steps.jacoc-report.outputs.coverage-changed-files }}"
