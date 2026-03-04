@@ -17,4 +17,10 @@ public class StringUtils {
     public static boolean isBlank(String s) {
         return s == null || s.isBlank();
     }
+
+    public static String reverse(String s) {
+      StringBuilder sb = new StringBuilder(s);
+      StringBuilder reversed = sb.reverse();
+      return reversed.toString();
+    }
 }
