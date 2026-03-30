@@ -118,7 +118,7 @@ jobs:
           cd code-coverage-demo
           ./gradlew diffCoverage\
             -PdiffCoverage.compareBranch=origin/${{ github.base_ref }} \
-            -PdiffCoverage.failUnder=${{ env.DIFF_COVERAGE_THRESHOLD }} \
+            -PdiffCoverage.failUnder=${{ vars.DIFF_COVERAGE_THRESHOLD }} \
             || true
       - name: Upload html diff coverage
         id: html-diff-cover
