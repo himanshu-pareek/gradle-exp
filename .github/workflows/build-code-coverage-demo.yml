@@ -101,7 +101,7 @@ jobs:
       - name: Install diff-cover
         run: pip install diff-cover==10.2.0
       - name: Compile main classes
-        runs: |
+        run: |
           sudo chown -R $USER /usr/local
           cd code-coverage-demo
           ./gradlew classes
