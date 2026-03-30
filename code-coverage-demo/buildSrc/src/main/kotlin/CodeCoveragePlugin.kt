@@ -6,7 +6,5 @@ class CodeCoveragePlugin : Plugin<Project> {
     override fun apply(project: Project) {
         project.extensions.create<CodeCoverageExtension>("codeCoverage")
         project.configureJacoco()
-        project.configureAggregateCoverageTask()
-        project.configureCompareCoverageCsvTask()
     }
 }

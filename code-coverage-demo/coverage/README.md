@@ -32,8 +32,6 @@ The code coverage solution is built using a custom Gradle plugin located in the 
 
 - **`CodeCoveragePlugin.kt`**: The main entry point of the plugin. It applies the Jacoco plugin and registers the custom tasks.
 - **`JacocoTasks.kt`**: Configures Jacoco for all subprojects, ensuring that test reports are generated in CSV, XML, and HTML formats.
-- **`AggregateCoverageTask.kt`**: A custom task that aggregates the coverage data from all subproject CSV reports into a single CSV file located at `coverage/current.csv`. This provides a project-wide overview of code coverage.
-- **`CompareCoverageCsvTask.kt`**: A custom task designed to compare the current code coverage (`coverage/current.csv`) with a baseline coverage report (`coverage/base.csv`). This is useful for tracking coverage changes over time.
 - **`CodeCoverageExtension.kt`**: Provides a mechanism for configuring the code coverage plugin, such as specifying files or directories to exclude from coverage analysis.
 
 ## Usage
