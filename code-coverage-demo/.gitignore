@@ -6,3 +6,6 @@ build
 
 # Ignore .reports directory
 .reports
+
+# Ignore python virtual environment
+.venv

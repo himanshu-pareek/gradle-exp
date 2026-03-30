@@ -14,9 +14,11 @@ fun Project.configureDiffCoverage(){
                 task.xmlFile.set(project.layout.buildDirectory.file("reports/jacoco/jacocoRootReport/jacocoRootReport.xml"))
                 task.markdownFile.set(project.layout.buildDirectory.file("reports/diff-coverage.md"))
                 task.htmlDir.set(project.layout.buildDirectory.dir("reports/diff-coverage-html"))
+                task.gitRootDir.set(project.projectDir.parentFile)
                 val srcRoots = CoverageHelper.collectSourceDirectories(project)
                     .map { it.toPath() }
-                    .map { project.projectDir.toPath().relativize(it).toString() }
+                    .map { project.projectDir.parentFile.toPath().relativize(it) }
+                    .map { it.toString() }
                 task.srcRoots.set(srcRoots)
                 val branch = project.findProperty("diffCoverage.compareBranch")
                 if (branch != null) {

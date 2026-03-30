@@ -7,4 +7,12 @@ class MessageUtils {
     public static String getMessage() {
         return "Hello      World!";
     }
+
+    public static String withHighFive(String message) {
+        if (message == null) {
+            return null;
+        }
+        message = message.trim();
+        return "High Five: " + message;
+    }
 }

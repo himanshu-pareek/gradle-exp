@@ -30,6 +30,9 @@ abstract class DiffCoverageTask: DefaultTask() {
     @get:Internal
     abstract val htmlDir: DirectoryProperty
 
+    @get:Internal
+    abstract val gitRootDir: DirectoryProperty
+
     @get:Inject
     abstract val execOperations: ExecOperations
 
@@ -74,6 +77,7 @@ abstract class DiffCoverageTask: DefaultTask() {
         val stdout = ByteArrayOutputStream()
         val stderr = ByteArrayOutputStream()
         val result = execOperations.exec {
+            workingDir(gitRootDir.get().asFile)
             commandLine(command)
             standardOutput = stdout
             errorOutput = stderr

@@ -1,12 +1,10 @@
 import org.gradle.api.Project
-import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.testing.Test
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.named
 import org.gradle.kotlin.dsl.withType
 import org.gradle.testing.jacoco.plugins.JacocoPlugin
 import org.gradle.testing.jacoco.tasks.JacocoReport
-import java.io.File
 
 fun Project.configureJacoco() {
     val extension = extensions.getByType(CodeCoverageExtension::class.java)
@@ -26,16 +24,6 @@ fun Project.configureJacoco() {
 
         tasks.withType<Test>().configureEach {
             finalizedBy(tasks.named("jacocoTestReport"))
-        }
-
-        tasks.withType<JacocoReport>().configureEach {
-            dependsOn("test")
-            enabled = false
-            reports {
-                html.required.set(false)
-                xml.required.set(false)
-                csv.required.set(false)
-            }
         }
     }
 
