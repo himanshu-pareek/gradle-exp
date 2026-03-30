@@ -72,3 +72,72 @@ jobs:
         retention-days: 1
         if-no-files-found: ignore
 
+  code-coverage-pr:
+    name: Generate Code Coverage Report for a PR
+    if: ${{ github.event_name == 'pull_request' && success() }}
+    needs:
+      - test-libraries
+      - test-app
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch base branch for diff-cover
+        run: git fetch origin ${{ github.base_ref }}:refs/remotes/origin/${{ github.base_ref }}
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install diff-cover
+        run: pip install diff-cover==10.2.0
+      - name: Compile main classes
+        runs: |
+          sudo chown -R $USER /usr/local
+          cd code-coverage-demo
+          ./gradlew classes
+      - name: Download test execution data
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-data-ccd-*
+          merge-multiple: true
+          path: code-coverage-demo
+      - name: Run diff-cover
+        id: diff-cover
+        run: |
+          sudo chown -R $USER /usr/local
+          ./gradlew diffCoverage\
+            -PdiffCoverage.compareBranch=origin/${{ github.base_ref }} \
+            -PdiffCoverage.failUnder=${{ env.DIFF_COVERAGE_THRESHOLD }} \
+            || true
+      - name: Upload html diff coverage
+        id: html-diff-cover
+        uses: actions/upload-artifact@v4
+        with:
+          name: diff-coverage-report
+          path: code-coverage-demo/build/reports/diff-coverage-html
+          retention-days: 1
+          if-no-files-found: ignore
+      - name: Prepare diff coverage comment
+        env:
+          ASSET_LINK: ${{ steps.html-diff-cover.outputs.artifact-url }}
+        run: |
+          cd code-coverage-demo
+          echo "" >> build/reports/diff-coverage.md
+          echo "[Click here]($ASSET_LINK) to download the diff coverage report in html format." >> build/reports/diff-coverage.md
+          echo "" >> build/reports/diff-coverage.md
+      - name: Post diff coverage comment to PR
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: diff-coverage
+          path: build/reports/diff-coverage.md
+ 
