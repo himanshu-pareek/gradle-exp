@@ -139,5 +139,5 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           header: diff-coverage
-          path: build/reports/diff-coverage.md
+          path: code-coverage-demo/build/reports/diff-coverage.md
  
