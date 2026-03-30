@@ -115,6 +115,7 @@ jobs:
         id: diff-cover
         run: |
           sudo chown -R $USER /usr/local
+          cd code-coverage-demo
           ./gradlew diffCoverage\
             -PdiffCoverage.compareBranch=origin/${{ github.base_ref }} \
             -PdiffCoverage.failUnder=${{ env.DIFF_COVERAGE_THRESHOLD }} \
