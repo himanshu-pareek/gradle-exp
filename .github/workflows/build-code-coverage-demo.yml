@@ -142,3 +142,46 @@ jobs:
           header: diff-coverage
           path: code-coverage-demo/build/reports/diff-coverage.md
  
+  code-coverage-push:
+    name: Generate Code Coverage Report for a Push
+    if: ${{ github.event_name == 'push' && success() }}
+    needs:
+      - test-libraries
+      - test-app
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+      - name: Compile main classes
+        run: |
+          sudo chown -R $USER /usr/local
+          cd code-coverage-demo
+          ./gradlew classes
+      - name: Download test execution data
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-data-ccd-*
+          merge-multiple: true
+          path: code-coverage-demo
+      - name: Generate Jacoco Root Report
+        id: jacoco-root-gen
+        run: |
+          sudo chown -R $USER /usr/local
+          cd code-coverage-demo
+          ./gradlew jacocoRootReport
+      - name: Upload Code Coverage Reports
+        id: jacoco-report-upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ccd-code-coverage-html
+          path: code-coverage-demo/build/reports/jacoco/jacocoRootReport
+          retention-days: 3
