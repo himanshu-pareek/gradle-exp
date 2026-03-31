@@ -1,8 +1,3 @@
-import java.io.FileReader
-import org.apache.commons.csv.CSVFormat
-import org.apache.commons.csv.CSVPrinter
-import java.io.FileWriter
-
 buildscript {
     repositories {
         mavenCentral()
@@ -14,6 +9,12 @@ buildscript {
 
 plugins {
     java
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
@@ -39,10 +40,4 @@ configure<CodeCoverageExtension> {
             "**/test/**"
         )
     )
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
-    }
 }

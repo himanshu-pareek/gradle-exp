@@ -1,4 +1,0 @@
-Module,InstructionCoverage,BranchCoverage,LineCoverage,ComplexityCoverage,MethodCoverage
-app,10.53,0.00,14.29,25.00,25.00
-list,89.60,77.27,94.29,73.68,100.00
-utilities,35.40,50.00,27.59,38.89,30.00
